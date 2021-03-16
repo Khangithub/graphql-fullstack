@@ -27,10 +27,11 @@ const typeDefs = gql(
 );
 
 const resolvers = require('./resolvers');
-
+const context = ({req}) => ({user: req.user && db.users.get(req.user.sub)});
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
+  context,
 });
 
 apolloServer.applyMiddleware({app, path: '/graphql'});
